@@ -1,0 +1,29 @@
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .modal-header h5 {
+    margin: 0;
+  }
+  
+  .modal-body {
+    padding: 1rem;
+  }
+  
+  .modal-footer {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .btn-secondary {
+    background-color: #b15b5b;
+    border-color: #b15b5b;
+  }
+  
+  .btn-primary {
+    background-color: #44001a;
+    border-color: #44001a;
+  }
+  

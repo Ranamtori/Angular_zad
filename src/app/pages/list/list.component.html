@@ -1,101 +1,54 @@
-
-<div class="container my-4">
-  <h2 class="d-flex mb-4">
-    <div class="container1">
-      <fa-icon [icon]="faUserGroup" class="icon1"></fa-icon>
-      List of smart guys
-    </div>
-    <div class="container2">
-      <button class="btn btn-dark mb-3" (click)="openAddUserModal()">
-        <fa-icon [icon]="faPlus" class="icon1"></fa-icon>
-        <p>Add brainiac</p>
-      </button>
-    </div>
-  </h2>
-
-  <table class="table table-striped">
-    <thead class="table-dark">
-    <tr>
-      <th scope="col">Id</th>
-      <th scope="col"></th>
-      <th scope="col">First name</th>
-      <th scope="col">Last name</th>
-      <th scope="col">Email</th>
-      <th scope="col"></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let user of users">
-      <td>{{ user.id }}</td>
-      <td><img [src]="user.avatar" class="avatar"></td>
-      <td>{{ user.first_name }}</td>
-      <td>{{ user.last_name }}</td>
-      <td>{{ user.email }}</td>
-      <td>
-        <fa-icon [icon]="faPenToSquare" (click)="openEditUserModal(user)" width="18" height="18" class="bi bi-trash-fill"></fa-icon>
-        <fa-icon [icon]="faTrashCan" (click)="confirmDeleteUser(user.id)" width="18" height="18" class="bi bi-trash-fill"></fa-icon>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-
-  <!-- Add/Edit User Modal -->
-  <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true" *ngIf="addUserModalVisible">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="addUserModalLabel">{{ editMode ? 'Edit' : 'Add new' }} brainiac</h5>
-          <button type="button" class="close" aria-label="Close" (click)="closeAddUserModal()">
-            <fa-icon [icon]="faX" class="custom-icon"></fa-icon>
-          </button>
-        </div>
-        <hr>
-        <form #addUserForm="ngForm" (ngSubmit)="onSubmit(addUserForm)">
-          <div class="modal-body">
-            <div class="mb-5">
-              <label for="firstName" class="form-label">First name <span class="text-danger" style="color: crimson">*</span></label>
-              <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Type in the first name" [(ngModel)]="currentUser.first_name" required>
-            </div>
-            <div class="mb-5">
-              <label for="lastName" class="form-label">Last name <span class="text-danger" style="color: crimson">*</span></label>
-              <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Type in the last name" [(ngModel)]="currentUser.last_name" required>
-            </div>
-            <div class="mb-5">
-              <label for="email" class="form-label">E-mail <span class="text-danger" style="color: crimson">*</span></label>
-              <input type="email" class="form-control" id="email" name="email" placeholder="Type in the email" style="width: 380px" [(ngModel)]="currentUser.email" required>
-            </div>
-          </div>
-          <hr>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" (click)="closeAddUserModal()">Close</button>
-            <button type="submit" class="btn btn-primary">{{ editMode ? 'Update' : 'Save' }}</button>
-          </div>
-        </form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="container mt-5">
+  <div class="container mt-5">
+    <h2 class="d-flex mb-4">
+      <div class="container1">
+        <i class="fa-solid fa-user-group"></i>
+        List of smart guys
       </div>
-    </div>
-  </div>
-
-  <!-- Delete Confirmation Modal -->
-  <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true" [ngClass]="{'show d-block': deleteConfirmationVisible}" *ngIf="deleteConfirmationVisible">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Delete</h5>
-        <button type="button" class="close" aria-label="Close" (click)="closeDeleteConfirmationModal()">
-          <fa-icon [icon]="faX" class="custom-icon"></fa-icon>
+      <div class="container2">
+        <button class="btn btn-dark mb-3" (click)="openAddUserModal()">
+          <i class="fa-solid fa-plus icon1"></i>
+          Add brainiac
         </button>
       </div>
-
-      <hr>
-      <div class="modal-body">
-        Are you sure you want to delete this user?
-      </div>
-      <div class="modal-footer" style="  margin-top: 10px;">
-        <button type="button" class="btn btn-secondary" (click)="closeDeleteConfirmationModal()">Cancel</button>
-        <button type="button" class="btn btn-danger" (click)="deleteUser()">Delete</button>
-      </div>
-    </div>
+    </h2>
+    <table class="table table-striped">
+      <thead class="custom-thead">
+        <tr>
+          <th>Id</th>
+          <th></th>
+          <th>First name</th>
+          <th>Last name</th>
+          <th>Email</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td>{{ user.id }}</td>
+          <td><img [src]="user.avatar" class="avatar"></td>
+          <td>{{ user.first_name }}</td>
+          <td>{{ user.last_name }}</td>
+          <td>{{ user.email }}</td>
+          <td>
+            <i class="fa-solid fa-pen-to-square" style="color: #44001a;" (click)="openEditUserModal(user)"></i>
+            <i class="fa-solid fa-trash-can" style="color: #44001a; margin-left: 5px;"(click)="openDeleteUserModal(user)"></i>
+          </td>
+        </tr>
+    
+      </tbody>
+    </table>
   </div>
-</div>
-</div>
-
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+</body>
+</html>

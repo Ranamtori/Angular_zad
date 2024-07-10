@@ -1,0 +1,33 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="addUserModalLabel">{{ editMode ? 'Edit' : 'Add new' }} brainiac</h5>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="modalRef.close()"
+  ></button>
+</div>
+
+<form #addUserForm="ngForm" (ngSubmit)="onSubmit(addUserForm)">
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="firstName" class="form-label">First name <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Type in the first name" [(ngModel)]="currentUser.first_name" required>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="lastName" class="form-label">Last name <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Type in the last name" [(ngModel)]="currentUser.last_name" required>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">E-mail <span class="text-danger">*</span></label>
+      <input type="email" class="form-control" id="email" name="email" placeholder="Type in the email" [(ngModel)]="currentUser.email" required>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modalRef.close()">Close</button>
+    <button type="submit" class="btn btn-primary">{{ editMode ? 'Update' : 'Save' }}</button>
+  </div>
+</form>

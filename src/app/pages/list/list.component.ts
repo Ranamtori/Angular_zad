@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { User } from '../../user.model';
-import { NgForm } from '@angular/forms';
-import {faPenToSquare, faPlus, faTrashCan, faUserGroup, faX} from '@fortawesome/free-solid-svg-icons';
+import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
+import { faUserGroup, faPlus, faPenToSquare, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { AddEditUserComponent } from '../../modals/addedit/addedit.component';
+import { DeleteUserComponent } from '../../modals/delete/delete.component'; // Import DeleteUserComponent
 
 @Component({
   selector: 'app-list',
@@ -11,14 +13,12 @@ import {faPenToSquare, faPlus, faTrashCan, faUserGroup, faX} from '@fortawesome/
 })
 export class ListComponent implements OnInit {
   users: User[] = [];
-  addUserModalVisible = false;
-  deleteUserId: number | null = null;
-  deleteConfirmationVisible = false;
-  currentUser: User = { id: 0, first_name: '', last_name: '', email: '', avatar: '' };
-  editMode = false;
   faUserGroup = faUserGroup;
 
-  constructor(private userService: UserService) {}
+  modalRef: MdbModalRef<AddEditUserComponent> | null = null;
+  deleteModalRef: MdbModalRef<DeleteUserComponent> | null = null; 
+
+  constructor(private userService: UserService, private modalService: MdbModalService) {}
 
   ngOnInit(): void {
     this.loadUsers();
@@ -30,82 +30,61 @@ export class ListComponent implements OnInit {
     });
   }
 
-  confirmDeleteUser(userId: number) {
-    this.deleteUserId = userId;
-    this.deleteConfirmationVisible = true;
-  }
-
-  closeDeleteConfirmationModal() {
-    this.deleteConfirmationVisible = false;
-    this.deleteUserId = null;
-  }
-
-  deleteUser() {
-    if (this.deleteUserId) {
-      this.userService.deleteUser(this.deleteUserId).subscribe(() => {
-        this.users = this.users.filter(user => user.id !== this.deleteUserId);
-        this.closeDeleteConfirmationModal();
-      });
-    }
-  }
-
   openAddUserModal() {
-    this.currentUser = { id: 0, first_name: '', last_name: '', email: '', avatar: '' };
-    this.editMode = false;
-    this.addUserModalVisible = true;
+    this.modalRef = this.modalService.open(AddEditUserComponent, {
+      data: {
+        editMode: false,
+        currentUser: { id: 0, first_name: '', last_name: '', email: '', avatar: '' }
+      }
+    });
+
+    this.modalRef.onClose.subscribe((result: any) => {
+      if (result && result.user) {
+        this.users.push(result.user);
+      }
+    });
   }
 
   openEditUserModal(user: User) {
-    this.currentUser = { ...user };
-    this.editMode = true;
-    this.addUserModalVisible = true;
-  }
-
-  closeAddUserModal() {
-    this.addUserModalVisible = false;
-  }
-
-  onSubmit(addUserForm: NgForm) {
-    if (addUserForm.valid) {
-      if (this.editMode) {
-        this.userService.updateUser(this.currentUser).subscribe((updatedUser: User) => {
-          const index = this.users.findIndex(user => user.id === updatedUser.id);
-          if (index !== -1) {
-            this.users[index] = updatedUser;
-          }
-          this.closeAddUserModal();
-        });
-      } else {
-        const newUser: User = {
-          id: this.getNextUserId(),
-          first_name: addUserForm.value.firstName,
-          last_name: addUserForm.value.lastName,
-          email: addUserForm.value.email,
-          avatar: this.getRandomAvatar()
-        };
-
-        this.userService.addUser(newUser).subscribe(() => {
-          this.users.push(newUser);
-          this.closeAddUserModal();
-          addUserForm.resetForm();
-        });
+    this.modalRef = this.modalService.open(AddEditUserComponent, {
+      data: {
+        editMode: true,
+        currentUser: { ...user }
       }
-    }
+    });
+
+    this.modalRef.onClose.subscribe((result: any) => {
+      if (result && result.user) {
+        const index = this.users.findIndex(u => u.id === result.user.id);
+        if (index !== -1) {
+          this.users[index] = result.user;
+        }
+      }
+    });
+  }
+
+  openDeleteUserModal(user: User) {
+    this.deleteModalRef = this.modalService.open(DeleteUserComponent, {
+      data: { user }
+    });
+
+    this.deleteModalRef.onClose.subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.deleteUser(user);
+        console.log(this.users);
+      }
+    });
   }
 
 
-  private getNextUserId(): number {
-    return this.users.length > 0 ? Math.max(...this.users.map(user => user.id)) + 1 : 1;
+  deleteUser(user: User): void {
+    this.userService.deleteUser(user.id).subscribe(
+      () => {
+        this.users = this.users.filter((u) => u.id !== user.id);
+      },
+      (error) => {
+        console.error('Error deleting user:', error);
+      }
+    );
   }
-
-  private getRandomAvatar(): string {
-    const avatarIndex = Math.floor(Math.random() * 12) + 6;
-    return `https://reqres.in/img/faces/${avatarIndex}-image.jpg`;
-  }
-
-  protected readonly faPlus = faPlus;
-  protected readonly faPenToSquare = faPenToSquare;
-  protected readonly faTrashCan = faTrashCan;
-  protected readonly faX = faX;
-  protected readonly close = close;
 }
