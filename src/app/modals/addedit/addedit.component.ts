@@ -11,6 +11,7 @@ import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
   styleUrls: ['./addedit.component.scss']
 })
 export class AddEditUserComponent {
+  
   @Input() users: User[] = [];
   @Input() currentUser: User = { id: 0, first_name: '', last_name: '', email: '', avatar: '' };
   @Input() editMode = false;

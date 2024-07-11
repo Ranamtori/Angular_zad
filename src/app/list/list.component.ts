@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../../services/user.service';
-import { User } from '../../user.model';
+import { UserService } from '../services/user.service';
+import { User } from '../user.model';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { faUserGroup, faPlus, faPenToSquare, faTrashCan } from '@fortawesome/free-solid-svg-icons';
-import { AddEditUserComponent } from '../../modals/addedit/addedit.component';
-import { DeleteUserComponent } from '../../modals/delete/delete.component';
+import { AddEditUserComponent } from '../modals/addedit/addedit.component';
+import { DeleteUserComponent } from '../modals/delete/delete.component';
 
 @Component({
   selector: 'app-list',
