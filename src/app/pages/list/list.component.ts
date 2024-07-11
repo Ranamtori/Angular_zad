@@ -4,7 +4,7 @@ import { User } from '../../user.model';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { faUserGroup, faPlus, faPenToSquare, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { AddEditUserComponent } from '../../modals/addedit/addedit.component';
-import { DeleteUserComponent } from '../../modals/delete/delete.component'; // Import DeleteUserComponent
+import { DeleteUserComponent } from '../../modals/delete/delete.component';
 
 @Component({
   selector: 'app-list',
@@ -16,7 +16,7 @@ export class ListComponent implements OnInit {
   faUserGroup = faUserGroup;
 
   modalRef: MdbModalRef<AddEditUserComponent> | null = null;
-  deleteModalRef: MdbModalRef<DeleteUserComponent> | null = null; 
+  deleteModalRef: MdbModalRef<DeleteUserComponent> | null = null;
 
   constructor(private userService: UserService, private modalService: MdbModalService) {}
 
@@ -71,11 +71,9 @@ export class ListComponent implements OnInit {
     this.deleteModalRef.onClose.subscribe((confirmed: boolean) => {
       if (confirmed) {
         this.deleteUser(user);
-        console.log(this.users);
       }
     });
   }
-
 
   deleteUser(user: User): void {
     this.userService.deleteUser(user.id).subscribe(

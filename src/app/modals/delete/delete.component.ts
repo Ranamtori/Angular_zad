@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { User } from '../../user.model';
-import { UserService } from '../../services/user.service';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 
 @Component({
@@ -12,15 +11,15 @@ export class DeleteUserComponent {
   @Input() user!: User;
   @Output() confirmDelete = new EventEmitter<boolean>();
 
-  constructor(private userService: UserService, public modalRef: MdbModalRef<DeleteUserComponent>) {}
+  constructor(public modalRef: MdbModalRef<DeleteUserComponent>) {}
 
   onConfirmDelete() {
     this.confirmDelete.emit(true);
-    this.modalRef.close();
+    this.modalRef.close(true); 
   }
 
   onCancel() {
     this.confirmDelete.emit(false);
-    this.modalRef.close();
+    this.modalRef.close(false); 
   }
 }

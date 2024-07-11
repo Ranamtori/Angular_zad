@@ -11,7 +11,6 @@ import { HomeComponent } from './pages/home/home.component';
 import { ListComponent } from './pages/list/list.component';
 import { UserRowComponent } from './pages/list/user-row/user-row.component';
 import { UserService } from './services/user.service';
-import { ModalComponent } from './modal/modal.component';
 import { MdbModalModule } from 'mdb-angular-ui-kit/modal';
 import { AddEditUserComponent } from './modals/addedit/addedit.component';
 
@@ -22,7 +21,6 @@ import { AddEditUserComponent } from './modals/addedit/addedit.component';
     HomeComponent,
     ListComponent,
     UserRowComponent,
-    ModalComponent,
     AddEditUserComponent
   ],
   imports: [
