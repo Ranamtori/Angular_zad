@@ -31,19 +31,10 @@
           <th></th>
         </tr>
       </thead>
+
       <tbody>
-        <tr *ngFor="let user of users">
-          <td>{{ user.id }}</td>
-          <td><img [src]="user.avatar" class="avatar"></td>
-          <td>{{ user.first_name }}</td>
-          <td>{{ user.last_name }}</td>
-          <td>{{ user.email }}</td>
-          <td>
-            <i class="fa-solid fa-pen-to-square" style="color: #44001a;" (click)="openEditUserModal(user)"></i>
-            <i class="fa-solid fa-trash-can" style="color: #44001a; margin-left: 5px;"(click)="openDeleteUserModal(user)"></i>
-          </td>
-        </tr>
-    
+        <tr *ngFor="let user of users" app-user-row [user]="user"
+        (userUpdated)="onUserUpdated($event)" (userDeleted)="onUserDeleted($event)"></tr>
       </tbody>
     </table>
   </div>

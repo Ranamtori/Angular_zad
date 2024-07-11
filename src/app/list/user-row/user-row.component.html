@@ -1,12 +1,10 @@
-<tr>
-  <td>{{ user.id }}</td>
-  <td><img [src]="user.avatar" class="avatar" alt="Avatar"></td>
+
+  <td scope="row">{{ user.id }}</td>
+  <td><img [src]="user.avatar" class="avatar"></td>
   <td>{{ user.first_name }}</td>
   <td>{{ user.last_name }}</td>
   <td>{{ user.email }}</td>
   <td>
-    <button class="btn btn-sm btn-outline-secondary me-2" (click)="editUser()">Edit</button>
-    <button class="btn btn-sm btn-outline-danger" (click)="deleteUser()">Delete</button>
+    <i class="fa-solid fa-pen-to-square" style="color: #44001a;" (click)="openEditUserModal()"></i>
+    <i class="fa-solid fa-trash-can" style="color: #44001a; margin-left: 5px;"(click)="openDeleteUserModal()"></i>
   </td>
-  <p>bajo jajo</p>
-</tr>

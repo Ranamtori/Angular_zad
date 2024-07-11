@@ -1,0 +1,32 @@
+
+.container1 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .container2 {
+    margin-left: auto;
+  }
+  
+  .avatar {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .icon1 {
+    margin-right: 5px;
+  }
+  
+  .custom-thead {
+    --bs-table-bg: #b15b5b;
+    --bs-table-color: #fff;
+    background-color: var(--bs-table-bg) !important;
+    color: white !important;
+  }
+  
+  .table tbody td {
+    vertical-align: middle;
+
+  }
+  

@@ -30,6 +30,17 @@ export class ListComponent implements OnInit {
     });
   }
 
+  onUserUpdated(updatedUser: User) {
+    const index = this.users.findIndex(user => user.id === updatedUser.id);
+    if (index !== -1) {
+      this.users[index] = updatedUser;
+    }
+  }
+
+  onUserDeleted(userId: number) {
+    this.users = this.users.filter(user => user.id !== userId);
+  }
+
   openAddUserModal() {
     this.modalRef = this.modalService.open(AddEditUserComponent, {
       data: {
@@ -43,46 +54,5 @@ export class ListComponent implements OnInit {
         this.users.push(result.user);
       }
     });
-  }
-
-  openEditUserModal(user: User) {
-    this.modalRef = this.modalService.open(AddEditUserComponent, {
-      data: {
-        editMode: true,
-        currentUser: { ...user }
-      }
-    });
-
-    this.modalRef.onClose.subscribe((result: any) => {
-      if (result && result.user) {
-        const index = this.users.findIndex(u => u.id === result.user.id);
-        if (index !== -1) {
-          this.users[index] = result.user;
-        }
-      }
-    });
-  }
-
-  openDeleteUserModal(user: User) {
-    this.deleteModalRef = this.modalService.open(DeleteUserComponent, {
-      data: { user }
-    });
-
-    this.deleteModalRef.onClose.subscribe((confirmed: boolean) => {
-      if (confirmed) {
-        this.deleteUser(user);
-      }
-    });
-  }
-
-  deleteUser(user: User): void {
-    this.userService.deleteUser(user.id).subscribe(
-      () => {
-        this.users = this.users.filter((u) => u.id !== user.id);
-      },
-      (error) => {
-        console.error('Error deleting user:', error);
-      }
-    );
   }
 }
