@@ -35,17 +35,18 @@ export class AddEditUserComponent {
         });
       } else {
         const newUser: User = {
-          id: this.getNextUserId(),
+          id:  0,
           first_name: addUserForm.value.firstName,
           last_name: addUserForm.value.lastName,
           email: addUserForm.value.email,
           avatar: this.getRandomAvatar()
         };
   
-        this.userService.addUser(newUser).subscribe(() => {
-          this.users.push(newUser);
-          this.userAdded.emit(newUser); 
-          this.closeAddUserModal({ user: newUser });
+        this.userService.addUser(newUser).subscribe((response) => {
+          console.log('User created successfully', response);
+          this.users.push(response);
+          this.userAdded.emit(response); 
+          this.closeAddUserModal({ user: response });
           addUserForm.resetForm();
         });
       }
@@ -56,9 +57,13 @@ export class AddEditUserComponent {
     this.modalRef.close(data);
   }
 
-  private getNextUserId(): number {
-    return this.users.length > 0 ? Math.max(...this.users.map(user => user.id)) + 1 : 1;
-  }
+  // private getNextUserId(): any {
+  //   this.userService.getUserId().subscribe((data: User) => {
+  //     this.user = data;
+  //   });
+  //   // return this.users.length > 0 ? Math.max(...this.users.map(user => user.id)) + 1 : 1;
+  // }
+
 
   private getRandomAvatar(): string {
     const avatarIndex = Math.floor(Math.random() * 12) + 6;

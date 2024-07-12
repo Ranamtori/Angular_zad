@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, Observable } from 'rxjs';
 import { User } from '../user.model';
 
 @Injectable({
@@ -8,6 +8,7 @@ import { User } from '../user.model';
 })
 export class UserService {
   private apiUrl = 'https://reqres.in/api/users';
+
 
   constructor(private http: HttpClient) {}
 
@@ -26,4 +27,5 @@ export class UserService {
   updateUser(user: User): Observable<User> {
     return this.http.put<User>(`${this.apiUrl}/${user.id}`, user);
   }
+
 }
