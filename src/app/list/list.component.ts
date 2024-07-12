@@ -20,14 +20,9 @@ export class ListComponent implements OnInit {
 
   constructor(private userService: UserService, private modalService: MdbModalService) {}
 
-  ngOnInit(): void {
-    this.loadUsers();
-  }
-
-  loadUsers() {
-    this.userService.getUsers().subscribe((data: any) => {
-      this.users = data.data;
-    });
+  ngOnInit() {
+    this.users = this.userService.getUsers()
+    console.log(this.userService.users)
   }
 
   onUserUpdated(updatedUser: User) {
